@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "936289716323",
+    "project_id": "sundial-wellness-tracker-app",
+    "storage_bucket": "sundial-wellness-tracker-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:936289716323:android:95bdb20b5666de46449056",
+        "android_client_info": {
+          "package_name": "sundial.wellness.tracker.android.apps.sundial_welln"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASkgvPkkh2vzR-gsPZP0Tf4UtTznZtX-w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

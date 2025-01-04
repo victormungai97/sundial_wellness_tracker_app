@@ -1,6 +1,24 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:sundial_wellness_tracker/firebase_options.dart';
+import 'package:sundial_wellness_tracker/utils/logging_utils.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  if (!kIsWeb) {
+    await LoggingUtils.crashlytics.setCrashlyticsCollectionEnabled(!kDebugMode);
+  }
+  // Non-async exceptions
+  FlutterError.onError = LoggingUtils().logError;
+  // Async exceptions
+  PlatformDispatcher.instance.onError = (error, stackTrace) {
+    LoggingUtils().logError(error, stackTrace: stackTrace);
+    return true;
+  };
+
   runApp(const MyApp());
 }
 
