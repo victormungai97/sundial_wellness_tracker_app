@@ -82,4 +82,7 @@ sealed class StorageService<T> with EquatableMixin {
 
   /// dispose
   Future<void>? close() async => preferences?.close();
+
+  @override
+  List<Object?> get props => [_prefs, get, put, delete, deleteAll, close];
 }
