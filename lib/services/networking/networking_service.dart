@@ -1,11 +1,12 @@
 part of 'networking.dart';
 
-/// Base service for making HTTP requests
+/// This generic helper class provides methods to facilitate making and processing of HTTP requests
 @immutable
 abstract class NetworkingService<T> with EquatableMixin {
   /// Create a new [NetworkingService].
   ///
   /// Provide an optional [Client] to facilitate HTTP calls
+  /// and an optional [host] that serves as an overall base URL
   NetworkingService({Client? client, String? host})
       : _httpClient = client ?? Client(),
         _apiBaseUrl = host ?? '';
@@ -14,6 +15,7 @@ abstract class NetworkingService<T> with EquatableMixin {
 
   final String _apiBaseUrl;
 
+  /// Logging instance
   final logger = LoggingUtils();
 
   /// Base method to handle HTTP calls

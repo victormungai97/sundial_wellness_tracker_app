@@ -1,9 +1,11 @@
 part of 'networking.dart';
 
+/// Helper subclass of [NetworkingService] that is dedicated purely for Sundial server calls
 sealed class ApiService<T> extends NetworkingService<T> {
   /// Creates a new [ApiService] instance
   ///
   /// Pass an optional [Client] for handling HTTP calls
+  /// and an optional [host] that serves as an overall base URL
   ApiService({super.client, String? host}) : super(host: host ?? 'assets');
   @override
   Future<HTTPResponseSchema<Object?>> parseResponse(
