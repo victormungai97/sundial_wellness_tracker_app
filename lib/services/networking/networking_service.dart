@@ -94,7 +94,7 @@ abstract class NetworkingService<T> with EquatableMixin {
             ),
           HTTPMethodsEnum.patch => _httpClient.patch(
               uri,
-              body: jsonEncode(data),
+              body: jsonEncode(data ?? const {}),
               headers: headers,
             ),
           HTTPMethodsEnum.head => _httpClient.head(uri, headers: headers),
