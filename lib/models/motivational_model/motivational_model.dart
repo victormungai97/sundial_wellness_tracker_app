@@ -26,5 +26,5 @@ final class MotivationalModel extends BaseModel with _$MotivationalModel {
       _$MotivationalModelFromJson(json);
 
   @override
-  String toString() => '$author once said `$message`';
+  String toString() => 'Motivation: {Message: $message, Author: $author}';
 }

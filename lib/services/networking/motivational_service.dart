@@ -24,6 +24,6 @@ final class MotivationalService extends ApiService<MotivationalModel> {
         error: 'No motivational messages available',
       );
     }
-    return (data: (data.toList()..shuffle()).first, error: null);
+    return (data: (data..shuffle()).first, error: null);
   }
 }
