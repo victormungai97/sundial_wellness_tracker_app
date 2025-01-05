@@ -2,10 +2,16 @@ part of 'storage.dart';
 
 /// This helper class provides methods to save and retrieve data from [Box].
 /// Works on mobile and web
+/// Currently uses [Box] from `hive` library.
+/// But can be repurposed to work with any key-value offline persistent storage mechanism / library
 @immutable
 sealed class StorageService<T> with EquatableMixin {
+  /// Create a new [StorageService].
+  ///
+  /// Provide an optional [Box] to facilitate offline persistent storage
   StorageService({Box<T>? box}) : _prefs = box;
 
+  /// Logging instance
   final logger = LoggingUtils();
 
   final Box<T>? _prefs;
