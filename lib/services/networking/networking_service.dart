@@ -38,11 +38,22 @@ abstract class NetworkingService<T> with EquatableMixin {
       Response? response;
       if (host.startsWith('assets')) {
         try {
-          response = Response(
-            await rootBundle.loadString(p.join(host, unEncodedPath)),
-            200,
-            headers: {'content-type': 'application/json'},
-          );
+          response = switch (method) {
+            HTTPMethodsEnum.get => Response(
+                await rootBundle.loadString(p.join(host, unEncodedPath)),
+                200,
+                headers: {'Content-Type': 'application/json'},
+              ),
+            _ => Response(
+                jsonEncode({
+                  'title': 'Not Implemented',
+                  'message':
+                      'The server does not support the functionality required to fulfill the request',
+                }),
+                501,
+                headers: {'Content-Type': 'application/json'},
+              ),
+          };
         } on Exception catch (exc, stack) {
           await logger.logError(
             exc,
@@ -50,9 +61,13 @@ abstract class NetworkingService<T> with EquatableMixin {
             stackTrace: stack,
           );
           response = Response(
-            'Internal Server Error',
+            jsonEncode({
+              'title': 'Internal Server Error',
+              'message':
+                  'The server encountered an unexpected condition that prevented it from fulfilling the request',
+            }),
             500,
-            headers: {'content-type': 'text/plain'},
+            headers: {'Content-Type': 'application/json'},
           );
         }
       } else {
