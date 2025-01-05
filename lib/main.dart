@@ -1,12 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http_interceptor/http_interceptor.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sundial_wellness_tracker/bloc/observer.dart';
 import 'package:sundial_wellness_tracker/firebase_options.dart';
+import 'package:sundial_wellness_tracker/services/networking/networking.dart';
 import 'package:sundial_wellness_tracker/utils/logging_utils.dart';
 import 'package:sundial_wellness_tracker/utils/network_interceptor_utils.dart';
 
@@ -61,12 +63,21 @@ void main() async {
   // Observe state changes
   Bloc.observer = const CustomBlocObserver();
 
-  final interceptedClient = InterceptedHttp.build(
+  final interceptedClient = InterceptedClient.build(
     interceptors: [NetworkLoggingInterceptorUtil()],
     requestTimeout: const Duration(seconds: 30),
   );
 
-  runApp(const MyApp());
+  runApp(
+    MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider(
+          create: (_) => MotivationalService(client: interceptedClient),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
