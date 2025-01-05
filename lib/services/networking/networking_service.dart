@@ -1,0 +1,116 @@
+part of 'networking.dart';
+
+/// Base service for making HTTP requests
+@immutable
+abstract class NetworkingService<T> with EquatableMixin {
+  /// Create a new [NetworkingService].
+  ///
+  /// Provide an optional [Client] to facilitate HTTP calls
+  NetworkingService({Client? client, String? host})
+      : _httpClient = client ?? Client(),
+        _apiBaseUrl = host ?? '';
+
+  final Client _httpClient;
+
+  final String _apiBaseUrl;
+
+  final logger = LoggingUtils();
+
+  /// Base method to handle HTTP calls
+  Future<HTTPResponseSchema<T>> request({
+    required HTTPMethodsEnum method,
+    String baseUrl = '',
+    String unEncodedPath = '',
+    Object? data,
+    Map<String, String>? headers,
+    Map<String, dynamic>? queryParameters,
+  }) async {
+    try {
+      if (baseUrl.isEmpty && unEncodedPath.isEmpty) {
+        return const (error: 'URL not provided', data: null);
+      }
+
+      final host = baseUrl.isEmpty ? _apiBaseUrl : baseUrl;
+      if (host.isEmpty) {
+        return const (error: 'URL not provided', data: null);
+      }
+
+      Response? response;
+      if (host.startsWith('assets')) {
+        try {
+          response = Response(
+            await rootBundle.loadString(p.join(host, unEncodedPath)),
+            200,
+            headers: {'content-type': 'application/json'},
+          );
+        } on Exception catch (exc, stack) {
+          await logger.logError(
+            exc,
+            message: 'Asset ${"$host/$unEncodedPath"} not found',
+            stackTrace: stack,
+          );
+          response = Response(
+            'Internal Server Error',
+            500,
+            headers: {'content-type': 'text/plain'},
+          );
+        }
+      } else {
+        final uri = Uri.https(host, unEncodedPath, queryParameters);
+        response = await switch (method) {
+          HTTPMethodsEnum.post => _httpClient.post(
+              uri,
+              body: jsonEncode(data ?? const {}),
+              headers: headers,
+            ),
+          HTTPMethodsEnum.get => _httpClient.get(
+              uri,
+              headers: headers,
+            ),
+          HTTPMethodsEnum.put => _httpClient.put(
+              uri,
+              body: jsonEncode(data ?? const {}),
+              headers: headers,
+            ),
+          HTTPMethodsEnum.delete => _httpClient.delete(
+              uri,
+              body: jsonEncode(data ?? const {}),
+              headers: headers,
+            ),
+          HTTPMethodsEnum.patch => _httpClient.patch(
+              uri,
+              body: jsonEncode(data),
+              headers: headers,
+            ),
+          HTTPMethodsEnum.head => _httpClient.head(uri, headers: headers),
+        };
+      }
+
+      final output = await parseResponse(response, _apiBaseUrl, method);
+      return switch (output.error) {
+        null || '' => await process(output.data, method, unEncodedPath),
+        _ => (error: output.error, data: null),
+      };
+    } on Exception catch (error, stackTrace) {
+      await logger.logError(error, stackTrace: stackTrace);
+      return const (error: 'Error occurred during request', data: null);
+    }
+  }
+
+  /// Analyze and decipher the response from HTTP requests
+  Future<HTTPResponseSchema<Object?>> parseResponse(
+    Response? response,
+    String apiBaseUrl,
+    HTTPMethodsEnum method,
+  );
+
+  /// Convert the data from HTTP requests to form usable in the application
+  Future<HTTPResponseSchema<T>> process(
+    Object? payload,
+    HTTPMethodsEnum method,
+    String unEncodedPath,
+  );
+
+  @override
+  List<Object?> get props => [_httpClient, _apiBaseUrl];
+}
