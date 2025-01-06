@@ -16,15 +16,27 @@ final class MotivationalService extends ApiService<MotivationalModel> {
 
   /// Retrieve a random motivational message
   Future<HTTPResponseSchema<MotivationalModel>> getRandomMotivation() async {
-    final (:data, :error) = await request(method: HTTPMethodsEnum.get);
-    if (error.exists) return (data: null, error: error);
-    if (data == null || data.isEmpty) {
-      return const (
+    try {
+      final (:data, :error) = await request(method: HTTPMethodsEnum.get);
+      if (error.exists) return (data: null, error: error);
+      if (data == null || data.isEmpty) {
+        return const (
+          data: null,
+          error: 'No motivational messages available',
+        );
+      }
+      return (data: (data..shuffle()).first, error: null);
+    } on Exception catch (error, stackTrace) {
+      await logger.logError(
+        error,
+        stackTrace: stackTrace,
+        message: '`MotivationalService.getRandomMotivation` Error',
+      );
+      return (
         data: null,
-        error: 'No motivational messages available',
+        error: 'Error occurred while retrieving random motivation',
       );
     }
-    return (data: (data..shuffle()).first, error: null);
   }
 
   @override
