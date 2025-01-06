@@ -17,7 +17,10 @@ final class MotivationalService extends ApiService<MotivationalModel> {
   /// Retrieve a random motivational message
   Future<HTTPResponseSchema<MotivationalModel>> getRandomMotivation() async {
     try {
-      final (:data, :error) = await request(method: HTTPMethodsEnum.get);
+      final (:data, :error) = await request(
+        method: HTTPMethodsEnum.get,
+        unEncodedPath: 'jsons/motivational_messages.json',
+      );
       if (error.exists) return (data: null, error: error);
       if (data == null || data.isEmpty) {
         return const (

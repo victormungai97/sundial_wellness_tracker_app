@@ -39,7 +39,7 @@ sealed class ApiService<D extends BaseModel>
           error: 'Unable to determine response received',
         );
       }
-      if (data is! Map<String, dynamic> && data is! List<Object>) {
+      if (data is! Map<String, dynamic> && data is! List<dynamic>) {
         return const (data: null, error: 'Unexpected response received');
       }
       return (data: data, error: null);

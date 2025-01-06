@@ -41,8 +41,10 @@ abstract class NetworkingService<T> with EquatableMixin {
       if (host.startsWith('assets')) {
         try {
           response = switch (method) {
-            HTTPMethodsEnum.get => Response(
-                await rootBundle.loadString(p.join(host, unEncodedPath)),
+            HTTPMethodsEnum.get => Response.bytes(
+                (await rootBundle.load(p.join(host, unEncodedPath)))
+                    .buffer
+                    .asUint8List(),
                 200,
                 headers: {'Content-Type': 'application/json'},
               ),
