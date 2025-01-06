@@ -15,7 +15,7 @@ final class MotivationalService extends ApiService<MotivationalModel> {
   static MotivationalService? _instance;
 
   /// Retrieve a random motivational message
-  Future<HTTPResponseSchema<MotivationalModel>> random() async {
+  Future<HTTPResponseSchema<MotivationalModel>> getRandomMotivation() async {
     final (:data, :error) = await request(method: HTTPMethodsEnum.get);
     if (error.exists) return (data: null, error: error);
     if (data == null || data.isEmpty) {
@@ -26,4 +26,7 @@ final class MotivationalService extends ApiService<MotivationalModel> {
     }
     return (data: (data..shuffle()).first, error: null);
   }
+
+  @override
+  List<Object?> get props => super.props..addAll([getRandomMotivation]);
 }
