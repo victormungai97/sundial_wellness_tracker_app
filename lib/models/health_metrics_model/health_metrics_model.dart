@@ -6,7 +6,7 @@ part 'health_metrics_model.freezed.dart';
 part 'health_metrics_model.g.dart';
 
 @freezed
-class HealthMetricsModel extends BaseModel with _$HealthMetricsModel {
+sealed class HealthMetricsModel extends BaseModel with _$HealthMetricsModel {
   /// Factory constructor for [HealthMetricsModel].
   ///
   /// Provide required number of [steps] and [heartRate]

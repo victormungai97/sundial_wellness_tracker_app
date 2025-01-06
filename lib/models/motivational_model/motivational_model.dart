@@ -6,7 +6,7 @@ part 'motivational_model.g.dart';
 
 /// This is the model for motivational messages
 @freezed
-final class MotivationalModel extends BaseModel with _$MotivationalModel {
+sealed class MotivationalModel extends BaseModel with _$MotivationalModel {
   /// Factory constructor for [MotivationalModel].
   ///
   /// Provide a required motivational [message]
