@@ -1,0 +1,42 @@
+[
+  {
+    "steps": 7200,
+    "heartRate": 72,
+    "lastUpdated": "2024-12-25T10:00:00Z"
+  },
+  {
+    "steps": 7850,
+    "heartRate": 72,
+    "lastUpdated": "2024-12-28T16:00:00Z"
+  },
+  {
+    "steps": 6700,
+    "heartRate": 72,
+    "lastUpdated": "2024-12-31T21:45:00Z"
+  },
+  {
+    "steps": 7346,
+    "heartRate": 72,
+    "lastUpdated": "2025-01-03T08:46:57Z"
+  },
+  {
+    "steps": 8723,
+    "heartRate": 72,
+    "lastUpdated": "2025-01-06T11:59:00Z"
+  },
+  {
+    "steps": 6500,
+    "heartRate": 72,
+    "lastUpdated": "2025-01-09T20:30:00Z"
+  },
+  {
+    "steps": 7000,
+    "heartRate": 72,
+    "lastUpdated": "2025-01-12T18:23:39Z"
+  },
+  {
+    "steps": 7200,
+    "heartRate": 72,
+    "lastUpdated": "2025-01-15T10:00:00Z"
+  }
+]

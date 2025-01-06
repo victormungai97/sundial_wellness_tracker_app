@@ -72,6 +72,9 @@ void main() async {
     MultiRepositoryProvider(
       providers: [
         RepositoryProvider(
+          create: (_) => HealthMetricsService(client: interceptedClient),
+        ),
+        RepositoryProvider(
           create: (_) => MotivationalService(client: interceptedClient),
         ),
       ],

@@ -78,6 +78,8 @@ sealed class ApiService<D extends BaseModel>
         data: [
           switch (D) {
             const (MotivationalModel) => MotivationalModel.fromJson(json) as D,
+            const (HealthMetricsModel) =>
+              HealthMetricsModel.fromJson(json) as D,
             _ => BaseModel.fromJson(json) as D,
           },
         ],
@@ -92,6 +94,8 @@ sealed class ApiService<D extends BaseModel>
             switch (D) {
               const (MotivationalModel) =>
                 MotivationalModel.fromJson(entry) as D,
+              const (HealthMetricsModel) =>
+                HealthMetricsModel.fromJson(entry) as D,
               _ => BaseModel.fromJson(entry) as D,
             },
           );
