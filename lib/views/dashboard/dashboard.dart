@@ -5,6 +5,30 @@ class DashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      backgroundColor: const Color(0xFFF3E5F5),
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text('Dashboard'),
+        titleTextStyle: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 18,
+          color: Colors.white,
+        ),
+        backgroundColor: Colors.purple,
+      ),
+      body: const SingleChildScrollView(
+        padding: EdgeInsets.symmetric(vertical: 24),
+        child: Center(
+          child: Column(
+            children: [
+              FlutterLogo(size: 320),
+              SizedBox(height: 12),
+              Text('Dashboard', style: TextStyle(fontFamily: 'Nunito')),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

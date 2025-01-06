@@ -24,8 +24,12 @@ final class CustomRouter with EquatableMixin {
       GoRoute(
         path: Routes.root,
         builder: (context, state) {
-          // TODO: Check state of onboarding
-          return const OnboardingPage();
+          final onBoardingDone =
+              context.read<OnboardingCubit>().onboardingState;
+          return switch (onBoardingDone) {
+            true => const JournalPage(),
+            false => const OnboardingPage(),
+          };
         },
       ),
       GoRoute(
@@ -50,6 +54,17 @@ final class CustomRouter with EquatableMixin {
       ),
     ),
     initialLocation: Routes.root,
+    redirect: (context, state) {
+      final onBoardingDone = context.read<OnboardingCubit>().onboardingState;
+      const onBoardedRoutes = [Routes.journal, Routes.dashboard];
+      if (!onBoardingDone && onBoardedRoutes.contains(state.fullPath)) {
+        return Routes.onboarding;
+      }
+      if (onBoardingDone && state.fullPath == Routes.onboarding) {
+        return Routes.journal;
+      }
+      return null;
+    },
   );
 
   @override

@@ -6,6 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http_interceptor/http_interceptor.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:sundial_wellness_tracker/bloc/cubits/onboarding_cubit.dart';
 import 'package:sundial_wellness_tracker/bloc/observer.dart';
 import 'package:sundial_wellness_tracker/firebase_options.dart';
 import 'package:sundial_wellness_tracker/navigation/navigation.dart';
@@ -72,7 +73,6 @@ void main() async {
   runApp(
     MultiRepositoryProvider(
       providers: [
-        RepositoryProvider(create: (_) => CustomRouter()),
         RepositoryProvider(
           create: (_) => HealthMetricsService(client: interceptedClient),
         ),
@@ -80,7 +80,10 @@ void main() async {
           create: (_) => MotivationalService(client: interceptedClient),
         ),
       ],
-      child: const MyApp(),
+      child: BlocProvider<OnboardingCubit>(
+        create: (_) => OnboardingCubit(),
+        child: const MyApp(),
+      ),
     ),
   );
 }
@@ -91,8 +94,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final router = CustomRouter();
     return MaterialApp.router(
-      routerConfig: context.watch<CustomRouter>().routerConfig,
+      routerConfig: router.routerConfig,
       debugShowCheckedModeBanner: false,
       title: 'Journal + Health App',
       theme: ThemeData(primarySwatch: Colors.purple),
