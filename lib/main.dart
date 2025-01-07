@@ -95,8 +95,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final router = CustomRouter();
-    return BlocProvider(
-      create: (context) => MotivationCubit(context.read<MotivationalService>()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) =>
+              MotivationCubit(context.read<MotivationalService>()),
+        ),
+        BlocProvider(
+          create: (context) => HealthMetricsCubit(
+            context.read<HealthMetricsService>(),
+          ),
+        ),
+      ],
       child: MaterialApp.router(
         routerConfig: router.routerConfig,
         debugShowCheckedModeBanner: false,

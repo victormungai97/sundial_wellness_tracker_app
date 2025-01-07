@@ -17,7 +17,10 @@ final class HealthMetricsService extends ApiService<HealthMetricsModel> {
   /// Retrieve all health metrics from server
   Future<HTTPResponseSchema<List<HealthMetricsModel>>> getAllMetrics() async {
     try {
-      final (:data, :error) = await request(method: HTTPMethodsEnum.get);
+      final (:data, :error) = await request(
+        method: HTTPMethodsEnum.get,
+        unEncodedPath: 'jsons/wearable_data.json',
+      );
       if (error.exists) return (data: null, error: error);
       if (data == null || data.isEmpty) {
         return const (
