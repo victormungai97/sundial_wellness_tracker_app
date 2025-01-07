@@ -8,8 +8,10 @@ class OnboardingCubit extends Cubit<bool> with HydratedMixin {
     hydrate();
   }
 
+  /// Mark the onboarding screen as having been viewed
   void onBoardingDone() => emit(true);
 
+  /// Check whether the onboarding screen has been viewed
   bool get onboardingState => state;
 
   @override

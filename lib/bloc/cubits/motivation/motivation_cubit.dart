@@ -17,6 +17,7 @@ class MotivationCubit extends Cubit<MotivationState> {
   final MotivationalService _motivationalService;
   static final LoggingUtils _logger = LoggingUtils();
 
+  /// This method get an arbitrary motivational message
   Future<void> retrieveRandom() async {
     emit(const MotivationRandomRetrievalInProgress());
     try {
@@ -46,5 +47,6 @@ class MotivationCubit extends Cubit<MotivationState> {
     }
   }
 
+  /// Return [MotivationCubit] to initial state
   void reset() => emit(const MotivationInitial());
 }
