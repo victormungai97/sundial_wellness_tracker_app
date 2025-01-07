@@ -6,7 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http_interceptor/http_interceptor.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:sundial_wellness_tracker/bloc/cubits/onboarding_cubit.dart';
+import 'package:sundial_wellness_tracker/bloc/cubits/cubits.dart';
 import 'package:sundial_wellness_tracker/bloc/observer.dart';
 import 'package:sundial_wellness_tracker/firebase_options.dart';
 import 'package:sundial_wellness_tracker/navigation/navigation.dart';
@@ -95,11 +95,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final router = CustomRouter();
-    return MaterialApp.router(
-      routerConfig: router.routerConfig,
-      debugShowCheckedModeBanner: false,
-      title: 'Journal + Health App',
-      theme: ThemeData(primarySwatch: Colors.purple),
+    return BlocProvider(
+      create: (context) => MotivationCubit(context.read<MotivationalService>()),
+      child: MaterialApp.router(
+        routerConfig: router.routerConfig,
+        debugShowCheckedModeBanner: false,
+        title: 'Sundial Wellness Tracker',
+        theme: ThemeData(primarySwatch: Colors.purple),
+      ),
     );
   }
 }

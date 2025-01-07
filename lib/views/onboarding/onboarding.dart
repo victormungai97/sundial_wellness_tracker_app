@@ -4,12 +4,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:lottie/lottie.dart';
-import 'package:sundial_wellness_tracker/bloc/cubits/onboarding_cubit.dart';
-import 'package:sundial_wellness_tracker/extensions/string.dart';
-import 'package:sundial_wellness_tracker/models/motivational_model/motivational_model.dart';
+import 'package:sundial_wellness_tracker/bloc/cubits/motivation/motivation_cubit.dart';
+import 'package:sundial_wellness_tracker/bloc/cubits/onboarding/onboarding_cubit.dart';
 import 'package:sundial_wellness_tracker/navigation/navigation.dart';
-import 'package:sundial_wellness_tracker/services/networking/networking.dart';
-import 'package:sundial_wellness_tracker/utils/logging_utils.dart';
 
 class OnboardingPage extends HookWidget {
   const OnboardingPage({super.key});
@@ -37,20 +34,7 @@ class OnboardingPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final motivationNotifier = useState<MotivationalModel?>(null);
-
-    Future<void> getMotivation() async {
-      final result =
-          await context.read<MotivationalService>().getRandomMotivation();
-      if (result.error.exists) {
-        LoggingUtils().debugLog(result.error!);
-        return;
-      }
-      final motivation = result.data;
-      if (motivation != null) {
-        motivationNotifier.value = motivation;
-      }
-    }
+    final motivationCubit = context.watch<MotivationCubit>();
 
     return SafeArea(
       child: IntroductionScreen(
@@ -81,41 +65,34 @@ class OnboardingPage extends HookWidget {
             decoration: _pageDecoration,
           ),
           PageViewModel(
-            titleWidget: ValueListenableBuilder(
-              valueListenable: motivationNotifier,
-              builder: (context, motivation, child) {
-                String text;
-                final messageAvailable =
-                    motivation == null || motivation.message.isEmpty;
-                if (messageAvailable) {
-                  text = "Let's get you started";
-                } else {
-                  text = '"${motivation.message}"';
-                }
+            titleWidget: BlocBuilder<MotivationCubit, MotivationState>(
+              builder: (context, state) {
+                final text = state is MotivationRandomRetrievalState
+                    ? state.whenOrNull(
+                        success: (motivation) => motivation.message,
+                      )
+                    : null;
                 return Text(
-                  text,
-                  style: messageAvailable
+                  text != null ? '"$text"' : "Let's get you started",
+                  style: text == null
                       ? _pageDecoration.titleTextStyle
                       : _pageDecoration.bodyTextStyle,
                   textAlign: TextAlign.center,
                 );
               },
             ),
-            bodyWidget: ValueListenableBuilder(
-              valueListenable: motivationNotifier,
-              builder: (context, motivation, child) {
-                String text;
-                final messageAvailable =
-                    motivation == null || motivation.message.isEmpty;
-                if (messageAvailable) {
-                  text = "You're doing great!\nKeep it up!";
-                } else {
-                  text = '- ${motivation.author}';
-                }
+            bodyWidget: BlocBuilder<MotivationCubit, MotivationState>(
+              builder: (context, state) {
+                final text = state is MotivationRandomRetrievalState
+                    ? state.whenOrNull(
+                        success: (motivation) => motivation.author,
+                      )
+                    : null;
+                final messageAvailable = text == null;
                 return Column(
                   children: [
                     Text(
-                      text,
+                      text ?? "You're doing great!\nKeep it up!",
                       style: !messageAvailable
                           ? _pageDecoration.titleTextStyle
                           : _pageDecoration.bodyTextStyle,
@@ -157,7 +134,11 @@ class OnboardingPage extends HookWidget {
           ),
         ],
         onChange: (value) async {
-          if (value == 2) await getMotivation();
+          if (value == 2) {
+            await motivationCubit.retrieveRandom();
+          } else {
+            motivationCubit.reset();
+          }
         },
         showDoneButton: false,
         showSkipButton: true,
@@ -169,7 +150,6 @@ class OnboardingPage extends HookWidget {
             fontSize: 18,
           ),
         ),
-        // onSkip: () async => getMotivation(),
         dotsDecorator: const DotsDecorator(
           size: Size(10, 10),
           color: Color(0xFFBDBDBD),
