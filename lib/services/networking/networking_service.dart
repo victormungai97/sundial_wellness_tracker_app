@@ -40,6 +40,7 @@ abstract class NetworkingService<T> with EquatableMixin {
       Response? response;
       if (host.startsWith('assets')) {
         try {
+          await Future<void>.delayed(const Duration(milliseconds: 1500));
           response = switch (method) {
             HTTPMethodsEnum.get => Response.bytes(
                 (await rootBundle.load(p.join(host, unEncodedPath)))
