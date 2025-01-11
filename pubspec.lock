@@ -30,6 +30,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.11.0"
+  animated_emoji:
+    dependency: "direct main"
+    description:
+      name: animated_emoji
+      sha256: "0af5508ce0ccb44caa6d3776d01900be6f6e70676881bfa8ce1a1bb9bf91a6a7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.0"
   archive:
     dependency: transitive
     description:
@@ -557,6 +565,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.1"
+  liquid_pull_refresh:
+    dependency: "direct main"
+    description:
+      name: liquid_pull_refresh
+      sha256: "496725ec395cc29a9ffdee75f3a82e82f8fb6648e4ff6b034e89ea91b7de908f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.6"
   logging:
     dependency: transitive
     description:
@@ -733,6 +749,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.0"
+  reactive_forms:
+    dependency: "direct main"
+    description:
+      name: reactive_forms
+      sha256: "10771b3b8f7df3dc6942928cc55b2abb49c0a5eb56ca8ab1ff4084b2bd968044"
+      url: "https://pub.dev"
+    source: hosted
+    version: "17.0.0"
   shelf:
     dependency: transitive
     description:
@@ -778,6 +802,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.10.0"
+  sprintf:
+    dependency: transitive
+    description:
+      name: sprintf
+      sha256: "1fc9ffe69d4df602376b52949af107d8f5703b77cda567c4d7d86a0693120f23"
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.0.0"
   stack_trace:
     dependency: transitive
     description:
@@ -850,6 +882,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.0"
+  uuid:
+    dependency: "direct main"
+    description:
+      name: uuid
+      sha256: a5be9ef6618a7ac1e964353ef476418026db906c4facdedaa299b7a2e71690ff
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.5.1"
   vector_math:
     dependency: transitive
     description:

@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
+import 'package:sundial_wellness_tracker/constants/enums.dart';
+import 'package:sundial_wellness_tracker/models/uuid_model/uuid_model.dart';
 
 /// This class provides convenience methods used in models
 final class ModelUtils with EquatableMixin {
@@ -19,6 +21,25 @@ final class ModelUtils with EquatableMixin {
     return _dateFormat.format(dateTime.toUtc());
   }
 
+  static UuidModel uuidFromJson(String uuid) => UuidModel.tryParse(uuid);
+
+  static String uuidToJson(UuidModel uuid) {
+    return uuid.toFormattedString(validate: true);
+  }
+
+  static Mood? moodFromJson(String? mood) {
+    if (mood == null || mood.isEmpty) return null;
+    return Mood.values.where((e) => e.name == mood).firstOrNull;
+  }
+
+  static String? moodToJson(Mood? mood) => mood?.name;
+
   @override
-  List<Object?> get props => [_dateFormat, dateTimeFromJson, dateTimeToJson];
+  List<Object?> get props => [
+        _dateFormat,
+        dateTimeFromJson,
+        dateTimeToJson,
+        moodFromJson,
+        moodToJson,
+      ];
 }
