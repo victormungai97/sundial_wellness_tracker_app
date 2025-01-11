@@ -22,8 +22,6 @@ class HealthMetricsCubit extends Cubit<HealthMetricsState> {
     emit(const HealthMetricsStepsCalculationInProgress());
     try {
       final (:data, :error) = await _healthMetricsService.computeTotalSteps();
-      print(data);
-      print(error);
       if (error.exists) {
         emit(HealthMetricsStepsCalculationState.failure(error!));
         return;

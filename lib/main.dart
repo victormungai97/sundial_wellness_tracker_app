@@ -80,10 +80,10 @@ void main() async {
           create: (_) => MotivationalService(client: interceptedClient),
         ),
       ],
-      child: BlocProvider<OnboardingCubit>(
-        create: (_) => OnboardingCubit(),
-        child: const MyApp(),
-      ),
+      child: MultiBlocProvider(providers: [
+        BlocProvider<OnboardingCubit>(create: (_) => OnboardingCubit()),
+        BlocProvider<JournalEntryCubit>(create: (_) => JournalEntryCubit()),
+      ], child: const MyApp()),
     ),
   );
 }
