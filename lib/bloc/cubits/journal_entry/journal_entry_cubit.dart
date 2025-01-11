@@ -4,10 +4,14 @@ import 'package:sundial_wellness_tracker/models/journal_entry_model/journal_entr
 import 'package:sundial_wellness_tracker/models/uuid_model/uuid_model.dart';
 
 final class JournalEntryCubit extends Cubit<JournalEntryModel> {
+  /// Factory constructor for [JournalEntryCubit]
+  /// to implement a class that is a singleton
   factory JournalEntryCubit() => _instance;
 
+  /// Private constructor of [JournalEntryCubit]
   JournalEntryCubit._() : super(_initialState);
 
+  /// One and only instance of [JournalEntryCubit]
   static final JournalEntryCubit _instance = JournalEntryCubit._();
 
   static final _initialState = JournalEntryModel(

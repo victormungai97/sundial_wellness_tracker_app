@@ -24,9 +24,8 @@ final class CustomRouter with EquatableMixin {
       GoRoute(
         path: Routes.root,
         builder: (context, state) {
-          final onBoardingDone =
-              context.read<OnboardingCubit>().onboardingState;
-          return switch (onBoardingDone) {
+          final onboardingCubit = context.watch<OnboardingCubit>();
+          return switch (onboardingCubit.onboardingState) {
             true => const JournalPage(),
             false => const OnboardingPage(),
           };
