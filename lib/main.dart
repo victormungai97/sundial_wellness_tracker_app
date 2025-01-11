@@ -60,12 +60,6 @@ void main() async {
   );
 
   /* Configure BLoC setup */
-  // Initialize storage interface
-  /*HydratedBloc.storage = await HydratedStorage.build(
-    storageDirectory: kIsWeb
-        ? HydratedStorage.webStorageDirectory
-        : await getApplicationDocumentsDirectory(),
-  );*/
   // Observe state changes
   Bloc.observer = const CustomBlocObserver();
 
