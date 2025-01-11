@@ -5,4 +5,5 @@ import 'package:sundial_wellness_tracker/models/journal_entry_model/journal_entr
 import 'package:sundial_wellness_tracker/utils/logging_utils.dart';
 
 part 'journal_entry_service.dart';
+part 'onboarding_service.dart';
 part 'storage_service.dart';

@@ -6,7 +6,6 @@ import 'package:introduction_screen/introduction_screen.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sundial_wellness_tracker/bloc/cubits/motivation/motivation_cubit.dart';
 import 'package:sundial_wellness_tracker/bloc/cubits/onboarding/onboarding_cubit.dart';
-import 'package:sundial_wellness_tracker/navigation/navigation.dart';
 import 'package:sundial_wellness_tracker/widgets/stateful_wrapper.dart';
 
 class OnboardingPage extends HookWidget {
@@ -109,7 +108,7 @@ class OnboardingPage extends HookWidget {
                           onPressed: () {
                             context.read<OnboardingCubit>().onBoardingDone();
                             motivationCubit.reset();
-                            context.go(Routes.journal);
+                            GoRouter.of(context).refresh();
                           },
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.white,
