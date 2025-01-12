@@ -171,7 +171,7 @@ class __$$JournalEntryModelImplCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$JournalEntryModelImpl extends _JournalEntryModel {
-  _$JournalEntryModelImpl(
+  const _$JournalEntryModelImpl(
       {@HiveField(0)
       @JsonKey(fromJson: ModelUtils.uuidFromJson, toJson: ModelUtils.uuidToJson)
       required this.id,
@@ -246,7 +246,7 @@ class _$JournalEntryModelImpl extends _JournalEntryModel {
 }
 
 abstract class _JournalEntryModel extends JournalEntryModel {
-  factory _JournalEntryModel(
+  const factory _JournalEntryModel(
       {@HiveField(0)
       @JsonKey(fromJson: ModelUtils.uuidFromJson, toJson: ModelUtils.uuidToJson)
       required final UuidModel id,
@@ -259,7 +259,7 @@ abstract class _JournalEntryModel extends JournalEntryModel {
           fromJson: ModelUtils.dateTimeFromJson,
           toJson: ModelUtils.dateTimeToJson)
       final DateTime? createdAt}) = _$JournalEntryModelImpl;
-  _JournalEntryModel._() : super._();
+  const _JournalEntryModel._() : super._();
 
   factory _JournalEntryModel.fromJson(Map<String, dynamic> json) =
       _$JournalEntryModelImpl.fromJson;

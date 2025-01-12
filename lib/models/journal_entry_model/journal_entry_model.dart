@@ -13,7 +13,7 @@ part 'journal_entry_model.g.dart';
 @HiveType(typeId: 223, adapterName: 'JournalEntryAdapter')
 class JournalEntryModel extends BaseModel with _$JournalEntryModel {
   @JsonSerializable(explicitToJson: true)
-  factory JournalEntryModel({
+  const factory JournalEntryModel({
     @HiveField(0)
     @JsonKey(
       fromJson: ModelUtils.uuidFromJson,
@@ -35,7 +35,7 @@ class JournalEntryModel extends BaseModel with _$JournalEntryModel {
     DateTime? createdAt,
   }) = _JournalEntryModel;
 
-  JournalEntryModel._();
+  const JournalEntryModel._();
 
   factory JournalEntryModel.fromJson(Map<String, Object?> json) =>
       _$JournalEntryModelFromJson(json);
