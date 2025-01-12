@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:sundial_wellness_tracker/bloc/cubits/cubits.dart';
@@ -35,11 +36,6 @@ class JournalPage extends StatelessWidget {
     final journalEntryCubit = context.watch<JournalEntryCubit>();
     return StatefulWrapper(
       onInit: () async {
-        /*final entryService = context.read<JournalEntryService>();
-        final entries =
-            (entryService.get('entries', defValue: [])) as List<Object?>?;
-        print(entries);
-        print(entries.runtimeType);*/
         journalEntryCubit.updatedId((const Uuid()).v4());
         await _load(context);
       },

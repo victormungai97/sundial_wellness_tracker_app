@@ -146,6 +146,9 @@ class _Form extends HookWidget {
             BlocConsumer<JournalEntryCubit, JournalEntryModel>(
               listener: (context, state) {
                 form.reset(removeFocus: true);
+                context.read<JournalEntryCubit>().updatedId(
+                      (const Uuid()).v4(),
+                    );
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: const Text(

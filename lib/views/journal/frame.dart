@@ -55,6 +55,20 @@ class _Frame extends HookWidget {
         ),
       ),
       resizeToAvoidBottomInset: true,
+      floatingActionButton: FloatingActionButton(
+        tooltip: 'Dashboard',
+        backgroundColor: Colors.purple,
+        foregroundColor: Colors.white,
+        elevation: 5,
+        shape: const CircleBorder(),
+        onPressed: () => context.go(Routes.dashboard),
+        child: const Image(
+          width: 24,
+          height: 24,
+          color: Colors.white,
+          image: Svg('assets/icons/dashboard.svg'),
+        ),
+      ),
     );
   }
 }
