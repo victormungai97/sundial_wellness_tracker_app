@@ -10,7 +10,10 @@ import 'package:http_interceptor/http_interceptor.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sundial_wellness_tracker/bloc/cubits/cubits.dart';
 import 'package:sundial_wellness_tracker/bloc/observer.dart';
+import 'package:sundial_wellness_tracker/constants/enums.dart';
 import 'package:sundial_wellness_tracker/firebase_options.dart';
+import 'package:sundial_wellness_tracker/models/journal_entry_model/journal_entry_model.dart';
+import 'package:sundial_wellness_tracker/models/uuid_model/uuid_model.dart';
 import 'package:sundial_wellness_tracker/navigation/navigation.dart';
 import 'package:sundial_wellness_tracker/services/networking/networking.dart';
 import 'package:sundial_wellness_tracker/services/storage/storage.dart';
@@ -37,9 +40,18 @@ void main() async {
 
 // set up persistent offline storage
   final appDirectory = kIsWeb ? null : await getTemporaryDirectory();
+  // Initialize Hive Database
   await Hive.initFlutter(appDirectory?.path).then(
     (_) async {
-      await Future.wait([Hive.openBox<bool>('onboarding_box')])
+      // Register Adapters to announce custom types to Hive
+      Hive
+        ..registerAdapter(UuidModelAdapter())
+        ..registerAdapter(JournalEntryAdapter())
+        ..registerAdapter(MoodAdapter());
+      await Future.wait([
+        Hive.openBox<bool>('onboarding_box'),
+        Hive.openBox<JournalEntryModel>('journal_box'),
+      ])
           .then((_) => logger.debugLog('Hive successfully setup', level: 800))
           .catchError(
             (Object? error, StackTrace stackTrace) => logger.logError(
@@ -94,6 +106,13 @@ class MyApp extends StatelessWidget {
           RepositoryProvider(
             create: (_) {
               return OnboardingService(box: Hive.box<bool>('onboarding_box'));
+            },
+          ),
+          RepositoryProvider(
+            create: (_) {
+              return JournalEntryService(
+                box: Hive.box<JournalEntryModel>('journal_box'),
+              );
             },
           ),
         ],

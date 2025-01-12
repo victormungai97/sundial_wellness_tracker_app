@@ -14,16 +14,27 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
+JournalEntryModel _$JournalEntryModelFromJson(Map<String, dynamic> json) {
+  return _JournalEntryModel.fromJson(json);
+}
+
 /// @nodoc
 mixin _$JournalEntryModel {
+  @HiveField(0)
   @JsonKey(fromJson: ModelUtils.uuidFromJson, toJson: ModelUtils.uuidToJson)
   UuidModel get id => throw _privateConstructorUsedError;
+  @HiveField(1)
   String get content => throw _privateConstructorUsedError;
+  @HiveField(2)
   @JsonKey(fromJson: ModelUtils.moodFromJson, toJson: ModelUtils.moodToJson)
   Mood? get mood => throw _privateConstructorUsedError;
+  @HiveField(3)
   @JsonKey(
       fromJson: ModelUtils.dateTimeFromJson, toJson: ModelUtils.dateTimeToJson)
   DateTime? get createdAt => throw _privateConstructorUsedError;
+
+  /// Serializes this JournalEntryModel to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of JournalEntryModel
   /// with the given fields replaced by the non-null parameter values.
@@ -39,12 +50,14 @@ abstract class $JournalEntryModelCopyWith<$Res> {
       _$JournalEntryModelCopyWithImpl<$Res, JournalEntryModel>;
   @useResult
   $Res call(
-      {@JsonKey(
-          fromJson: ModelUtils.uuidFromJson, toJson: ModelUtils.uuidToJson)
+      {@HiveField(0)
+      @JsonKey(fromJson: ModelUtils.uuidFromJson, toJson: ModelUtils.uuidToJson)
       UuidModel id,
-      String content,
+      @HiveField(1) String content,
+      @HiveField(2)
       @JsonKey(fromJson: ModelUtils.moodFromJson, toJson: ModelUtils.moodToJson)
       Mood? mood,
+      @HiveField(3)
       @JsonKey(
           fromJson: ModelUtils.dateTimeFromJson,
           toJson: ModelUtils.dateTimeToJson)
@@ -101,12 +114,14 @@ abstract class _$$JournalEntryModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(
-          fromJson: ModelUtils.uuidFromJson, toJson: ModelUtils.uuidToJson)
+      {@HiveField(0)
+      @JsonKey(fromJson: ModelUtils.uuidFromJson, toJson: ModelUtils.uuidToJson)
       UuidModel id,
-      String content,
+      @HiveField(1) String content,
+      @HiveField(2)
       @JsonKey(fromJson: ModelUtils.moodFromJson, toJson: ModelUtils.moodToJson)
       Mood? mood,
+      @HiveField(3)
       @JsonKey(
           fromJson: ModelUtils.dateTimeFromJson,
           toJson: ModelUtils.dateTimeToJson)
@@ -155,28 +170,39 @@ class __$$JournalEntryModelImplCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _$JournalEntryModelImpl implements _JournalEntryModel {
-  const _$JournalEntryModelImpl(
-      {@JsonKey(
-          fromJson: ModelUtils.uuidFromJson, toJson: ModelUtils.uuidToJson)
+class _$JournalEntryModelImpl extends _JournalEntryModel {
+  _$JournalEntryModelImpl(
+      {@HiveField(0)
+      @JsonKey(fromJson: ModelUtils.uuidFromJson, toJson: ModelUtils.uuidToJson)
       required this.id,
-      required this.content,
+      @HiveField(1) this.content = '',
+      @HiveField(2)
       @JsonKey(fromJson: ModelUtils.moodFromJson, toJson: ModelUtils.moodToJson)
       this.mood,
+      @HiveField(3)
       @JsonKey(
           fromJson: ModelUtils.dateTimeFromJson,
           toJson: ModelUtils.dateTimeToJson)
-      this.createdAt});
+      this.createdAt})
+      : super._();
+
+  factory _$JournalEntryModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$JournalEntryModelImplFromJson(json);
 
   @override
+  @HiveField(0)
   @JsonKey(fromJson: ModelUtils.uuidFromJson, toJson: ModelUtils.uuidToJson)
   final UuidModel id;
   @override
+  @JsonKey()
+  @HiveField(1)
   final String content;
   @override
+  @HiveField(2)
   @JsonKey(fromJson: ModelUtils.moodFromJson, toJson: ModelUtils.moodToJson)
   final Mood? mood;
   @override
+  @HiveField(3)
   @JsonKey(
       fromJson: ModelUtils.dateTimeFromJson, toJson: ModelUtils.dateTimeToJson)
   final DateTime? createdAt;
@@ -198,6 +224,7 @@ class _$JournalEntryModelImpl implements _JournalEntryModel {
                 other.createdAt == createdAt));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, content, mood, createdAt);
 
@@ -209,30 +236,47 @@ class _$JournalEntryModelImpl implements _JournalEntryModel {
   _$$JournalEntryModelImplCopyWith<_$JournalEntryModelImpl> get copyWith =>
       __$$JournalEntryModelImplCopyWithImpl<_$JournalEntryModelImpl>(
           this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$JournalEntryModelImplToJson(
+      this,
+    );
+  }
 }
 
-abstract class _JournalEntryModel implements JournalEntryModel {
-  const factory _JournalEntryModel(
-      {@JsonKey(
-          fromJson: ModelUtils.uuidFromJson, toJson: ModelUtils.uuidToJson)
+abstract class _JournalEntryModel extends JournalEntryModel {
+  factory _JournalEntryModel(
+      {@HiveField(0)
+      @JsonKey(fromJson: ModelUtils.uuidFromJson, toJson: ModelUtils.uuidToJson)
       required final UuidModel id,
-      required final String content,
+      @HiveField(1) final String content,
+      @HiveField(2)
       @JsonKey(fromJson: ModelUtils.moodFromJson, toJson: ModelUtils.moodToJson)
       final Mood? mood,
+      @HiveField(3)
       @JsonKey(
           fromJson: ModelUtils.dateTimeFromJson,
           toJson: ModelUtils.dateTimeToJson)
       final DateTime? createdAt}) = _$JournalEntryModelImpl;
+  _JournalEntryModel._() : super._();
+
+  factory _JournalEntryModel.fromJson(Map<String, dynamic> json) =
+      _$JournalEntryModelImpl.fromJson;
 
   @override
+  @HiveField(0)
   @JsonKey(fromJson: ModelUtils.uuidFromJson, toJson: ModelUtils.uuidToJson)
   UuidModel get id;
   @override
+  @HiveField(1)
   String get content;
   @override
+  @HiveField(2)
   @JsonKey(fromJson: ModelUtils.moodFromJson, toJson: ModelUtils.moodToJson)
   Mood? get mood;
   @override
+  @HiveField(3)
   @JsonKey(
       fromJson: ModelUtils.dateTimeFromJson, toJson: ModelUtils.dateTimeToJson)
   DateTime? get createdAt;

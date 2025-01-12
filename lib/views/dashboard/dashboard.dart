@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:go_router/go_router.dart';
+import 'package:sundial_wellness_tracker/navigation/navigation.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
@@ -27,6 +30,20 @@ class DashboardPage extends StatelessWidget {
               Text('Dashboard', style: TextStyle(fontFamily: 'Nunito')),
             ],
           ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        tooltip: 'Journal',
+        backgroundColor: Colors.purple,
+        foregroundColor: Colors.white,
+        elevation: 5,
+        shape: const CircleBorder(),
+        onPressed: () => context.go(Routes.root),
+        child: const Image(
+          width: 24,
+          height: 24,
+          color: Colors.white,
+          image: Svg('assets/icons/journal.svg'),
         ),
       ),
     );

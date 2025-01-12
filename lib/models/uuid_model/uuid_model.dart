@@ -1,15 +1,23 @@
 import 'dart:async';
 
+import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
 import 'package:sundial_wellness_tracker/utils/logging_utils.dart';
 import 'package:uuid/uuid.dart';
 
+part 'uuid_model.g.dart';
+
 /// Class building upon [UuidValue] to
 /// facilitate persistent local storage of UUIDs using <code>Hive</code>
 @immutable
+@HiveType(typeId: 221, adapterName: 'UuidModelAdapter')
 final class UuidModel extends UuidValue {
-  UuidModel(this.uuidValue) : super.raw(uuidValue.toLowerCase());
+  /// Constructor of [UuidModel]
+  UuidModel([this.uuidValue = '']) : super.raw(uuidValue.toLowerCase());
 
+  /// Factory constructor of [UuidModel]
+  /// that validates a provided [uuid]
+  /// to ensure it is of valid format
   factory UuidModel.tryParse(String uuid) {
     try {
       return UuidModel('${UuidValue.withValidation(uuid)}');
@@ -23,21 +31,16 @@ final class UuidModel extends UuidValue {
           );
         },
       );
-      return UuidModel('');
+      return UuidModel();
     }
   }
 
-  factory UuidModel.fromJson(Map<String, Object?> json) {
-    return UuidModel((json['uuid'] ?? '') as String);
-  }
-
+  @HiveField(0)
   final String uuidValue;
 
   UuidModel copyWith({String? uuidValue}) {
     return UuidModel.tryParse(uuidValue ?? this.uuidValue);
   }
-
-  Map<String, Object?> toJson() => {'uuid': uuidValue};
 
   @override
   String toString() => 'UuidModel(uuidValue: $uuidValue)';

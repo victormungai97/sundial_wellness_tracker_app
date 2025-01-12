@@ -14,10 +14,7 @@ final class JournalEntryCubit extends Cubit<JournalEntryModel> {
   /// One and only instance of [JournalEntryCubit]
   static final JournalEntryCubit _instance = JournalEntryCubit._();
 
-  static final _initialState = JournalEntryModel(
-    id: UuidModel(''),
-    content: '',
-  );
+  static final _initialState = JournalEntryModel(id: UuidModel());
 
   void updatedId(String id) => emit(state.copyWith(id: UuidModel.tryParse(id)));
 
