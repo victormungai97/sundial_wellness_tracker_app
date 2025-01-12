@@ -59,9 +59,7 @@ class _Form extends HookWidget {
                   ),
                   expands: true,
                   onChanged: (control) {
-                    context
-                        .read<JournalEntryCubit>()
-                        .updatedContent(control.value ?? '');
+                    journalEntryCubit.updatedContent(control.value ?? '');
                   },
                   maxLines: null,
                   keyboardType: TextInputType.multiline,
@@ -97,19 +95,16 @@ class _Form extends HookWidget {
                         height: errored ? 180 : 152,
                         child: Column(
                           children: [
-                            SizedBox(
-                              width: double.infinity,
-                              height: 150,
-                              child: SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: BlocListener<JournalEntryCubit,
-                                    JournalEntryModel>(
-                                  listener: (context, state) {
-                                    form
-                                        .control('mood')
-                                        .updateValue(state.mood);
-                                    form.markAsTouched();
-                                  },
+                            BlocListener<JournalEntryCubit, JournalEntryModel>(
+                              listener: (context, state) {
+                                form.control('mood').updateValue(state.mood);
+                                form.markAsTouched();
+                              },
+                              child: SizedBox(
+                                width: double.infinity,
+                                height: 150,
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
@@ -118,11 +113,11 @@ class _Form extends HookWidget {
                                       ),
                                     ],
                                   ),
-                                  listenWhen: (previous, current) {
-                                    return previous.mood != current.mood;
-                                  },
                                 ),
                               ),
+                              listenWhen: (previous, current) {
+                                return previous.mood != current.mood;
+                              },
                             ),
                             if (errored)
                               Text(
@@ -148,36 +143,83 @@ class _Form extends HookWidget {
                 },
               ),
             ),
-            Container(
-              alignment: Alignment.center,
-              width: MediaQuery.sizeOf(context).width,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  if (focusNode.hasFocus) focusNode.unfocus();
-                  if (!form.valid) {
-                    form.markAllAsTouched();
-                    return;
-                  }
-                  //final values = Map<String, Object?>.from(form.value);
-                },
-                style: ElevatedButton.styleFrom(
-                  fixedSize: const Size(150, 50),
-                  foregroundColor: Colors.white,
-                  backgroundColor: Colors.purple,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(5)),
+            BlocConsumer<JournalEntryCubit, JournalEntryModel>(
+              listener: (context, state) {
+                form.reset(removeFocus: true);
+                context.read<JournalEntryCubit>().updatedId(
+                      (const Uuid()).v4(),
+                    );
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: const Text(
+                      'Entry saved successfully',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Nunito',
+                      ),
+                    ),
+                    action: SnackBarAction(
+                      label: 'View Dashboard',
+                      onPressed: () => context.go(Routes.dashboard),
+                      textColor: Colors.green,
+                    ),
+                    backgroundColor: Colors.black,
                   ),
-                  iconSize: 24,
-                  iconColor: Colors.white,
-                  textStyle: const TextStyle(
-                    fontFamily: 'Nunito',
-                    fontSize: 17,
+                );
+              },
+              listenWhen: (previous, current) {
+                return (current.id.isNil || current.id.uuidValue.isEmpty) &&
+                    current.content.isEmpty;
+              },
+              builder: (context, state) {
+                return Container(
+                  alignment: Alignment.center,
+                  width: MediaQuery.sizeOf(context).width,
+                  child: ElevatedButton.icon(
+                    onPressed: () async {
+                      if (focusNode.hasFocus) focusNode.unfocus();
+                      if (!form.valid) {
+                        form.markAllAsTouched();
+                        return;
+                      }
+                      final entryService = context.read<JournalEntryService>();
+                      final (:message, :success) =
+                          await entryService.addEntry(state);
+                      if (!context.mounted) return;
+                      if (!success) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              message,
+                              style: const TextStyle(
+                                color: Colors.red,
+                                fontFamily: 'Nunito',
+                              ),
+                            ),
+                            backgroundColor: Colors.black,
+                          ),
+                        );
+                      } else {
+                        journalEntryCubit.reset();
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      fixedSize: const Size(150, 50),
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.purple,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                      ),
+                      iconSize: 24,
+                      iconColor: Colors.white,
+                      textStyle: const TextStyle(fontFamily: 'Nunito'),
+                      elevation: 5,
+                    ),
+                    label: const Text('Save'),
+                    icon: const Icon(Icons.save),
                   ),
-                  elevation: 5,
-                ),
-                label: const Text('Save'),
-                icon: const Icon(Icons.save),
-              ),
+                );
+              },
             ),
           ],
         );
