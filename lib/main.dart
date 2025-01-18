@@ -8,6 +8,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http_interceptor/http_interceptor.dart';
 // import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:sundial_wellness_tracker/bloc/blocs/blocs.dart';
 import 'package:sundial_wellness_tracker/bloc/cubits/cubits.dart';
 import 'package:sundial_wellness_tracker/bloc/observer.dart';
 import 'package:sundial_wellness_tracker/constants/enums.dart';
@@ -154,6 +155,11 @@ class _App extends StatelessWidget {
           },
         ),
         BlocProvider<JournalEntryCubit>(create: (_) => JournalEntryCubit()),
+        BlocProvider<JournalEntryBloc>(
+          create: (context) => JournalEntryBloc(
+            context.read<JournalEntryService>(),
+          ),
+        ),
       ],
       child: MaterialApp.router(
         routerConfig: router.routerConfig,
