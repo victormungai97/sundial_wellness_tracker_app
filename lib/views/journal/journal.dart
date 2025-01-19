@@ -27,18 +27,23 @@ Future<void> _load(BuildContext context) async {
   ]);
 }
 
+void _reset(BuildContext context) {
+  context.read<JournalEntryCubit>().reset();
+  context.read<MotivationCubit>().reset();
+  context.read<HealthMetricsCubit>().reset();
+}
+
 class JournalPage extends StatelessWidget {
   const JournalPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final journalEntryCubit = context.watch<JournalEntryCubit>();
     return StatefulWrapper(
       onInit: () async {
-        journalEntryCubit.updatedId((const Uuid()).v4());
+        context.read<JournalEntryCubit>().updatedId((const Uuid()).v4());
         await _load(context);
       },
-      onDispose: journalEntryCubit.reset,
+      onDispose: () => _reset(context),
       child: const _Frame(key: ValueKey('JournalFrame')),
     );
   }

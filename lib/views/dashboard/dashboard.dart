@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sundial_wellness_tracker/bloc/cubits/health_metrics/health_metrics_cubit.dart';
 import 'package:sundial_wellness_tracker/navigation/navigation.dart';
+
+void _reset(BuildContext context) {
+  context.read<JournalEntryBloc>().reset();
+  context.read<HealthMetricsCubit>().reset();
+}
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
