@@ -5,22 +5,22 @@ part of 'storage.dart';
 /// Currently uses [Box] from `hive` library.
 /// But can be repurposed to work with any key-value offline persistent storage mechanism / library
 @immutable
-sealed class StorageService<T> with EquatableMixin {
+sealed class StorageService<K, V> with EquatableMixin {
   /// Create a new [StorageService].
   ///
   /// Provide an optional [Box] to facilitate offline persistent storage
-  StorageService({Box<T>? box}) : _prefs = box;
+  StorageService({Box<V>? box}) : _prefs = box;
 
   /// Logging instance
   final logger = LoggingUtils();
 
-  final Box<T>? _prefs;
+  final Box<V>? _prefs;
 
   /// Access to local database
-  Box<T>? get preferences => _prefs;
+  Box<V>? get preferences => _prefs;
 
   /// retrieve
-  T? get(dynamic key, {T? defValue}) {
+  V? get(K key, {V? defValue}) {
     try {
       if (preferences == null) return defValue;
       return preferences?.get(key) ?? defValue;
@@ -35,7 +35,7 @@ sealed class StorageService<T> with EquatableMixin {
   }
 
   /// add
-  Future<void> put(dynamic key, T value) async {
+  Future<void> put(K key, V value) async {
     try {
       if (preferences == null) return;
       await preferences?.put(key, value);
@@ -49,7 +49,7 @@ sealed class StorageService<T> with EquatableMixin {
   }
 
   /// remove
-  Future<bool> delete(dynamic key) async {
+  Future<bool> delete(K key) async {
     if (preferences == null) return false;
     try {
       await preferences?.delete(key);
